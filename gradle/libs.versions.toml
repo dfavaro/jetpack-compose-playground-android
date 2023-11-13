@@ -1,18 +1,20 @@
 [versions]
-agp = "8.1.0-rc01"
-org-jetbrains-kotlin-android = "1.8.10"
-core-ktx = "1.9.0"
+agp = "8.1.3"
+org-jetbrains-kotlin-android = "1.9.20"
+core-ktx = "1.12.0"
+desugarJdkLibs = "2.0.4"
 junit = "4.13.2"
 androidx-test-ext-junit = "1.1.5"
 espresso-core = "3.5.1"
-lifecycle-runtime-ktx = "2.6.1"
-activity-compose = "1.7.0"
-compose-bom = "2023.03.00"
+lifecycle-runtime-ktx = "2.6.2"
+activity-compose = "1.8.0"
+compose-bom = "2023.10.01"
 compose-constraintlayout = "1.0.1"
-compose-runtime-tracing = "1.0.0-alpha03"
+compose-runtime-tracing = "1.0.0-alpha04"
 
 [libraries]
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
+desugarJdkLibs = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "desugarJdkLibs" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso-core" }

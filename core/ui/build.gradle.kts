@@ -6,16 +6,12 @@ plugins {
 
 android {
     namespace = "com.danielefavaro.jetpackcomposeplayground.ui"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 28
-        targetSdk = 33
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary = true
-        }
     }
 
     buildTypes {
@@ -28,17 +24,18 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+        isCoreLibraryDesugaringEnabled = true
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = JavaVersion.VERSION_11.toString()
     }
     buildFeatures {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.3"
+        kotlinCompilerExtensionVersion = "1.5.4"
     }
     packaging {
         resources {
@@ -48,10 +45,12 @@ android {
 }
 
 dependencies {
+    add("coreLibraryDesugaring", libs.desugarJdkLibs)
+
     implementation(libs.core.ktx)
     implementation(platform(libs.compose.bom))
     implementation(libs.compose.constraintlayout)
-    debugImplementation(libs.compose.runtime.tracing)
+//    debugImplementation(libs.compose.runtime.tracing)
     implementation(libs.ui)
     implementation(libs.ui.graphics)
     implementation(libs.ui.tooling.preview)
