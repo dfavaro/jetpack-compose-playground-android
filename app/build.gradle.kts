@@ -1,71 +1,63 @@
-@Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
+import com.danielefavaro.jetpackcomposeplayground.BuildType
+
 plugins {
-    alias(libs.plugins.com.android.application)
-    alias(libs.plugins.org.jetbrains.kotlin.android)
+    alias(libs.plugins.jetpackcomposeplayground.android.application)
+    alias(libs.plugins.jetpackcomposeplayground.android.application.compose)
+//    alias(libs.plugins.jetpackcomposeplayground.android.hilt)
 }
 
 android {
-    namespace = "com.danielefavaro.jetpackcomposeplayground"
-    compileSdk = 34
-
     defaultConfig {
         applicationId = "com.danielefavaro.jetpackcomposeplayground"
-        minSdk = 28
-        versionCode = 1
-        versionName = "0.1"
+        versionCode = libs.versions.versionCode.get().toInt()
+        versionName = libs.versions.versionName.get()
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        // Custom test runner to set up Hilt dependency graph
+//        testInstrumentationRunner = "com.danielefavaro.jetpackcomposeplayground.core.testing.TestRunner"
+        vectorDrawables {
+            useSupportLibrary = true
+        }
     }
 
     buildTypes {
-        release {
-            isMinifyEnabled = false
+        debug {
+            applicationIdSuffix = BuildType.DEBUG.applicationIdSuffix
+        }
+        val release by getting {
+            isMinifyEnabled = true
+            applicationIdSuffix = BuildType.RELEASE.applicationIdSuffix
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-        isCoreLibraryDesugaringEnabled = true
-    }
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
-    }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.4"
-    }
+
     packaging {
         resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes.add("/META-INF/{AL2.0,LGPL2.1}")
         }
     }
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+        }
+    }
+    namespace = "com.danielefavaro.jetpackcomposeplayground"
 }
 
 dependencies {
-    add("coreLibraryDesugaring", libs.desugarJdkLibs)
-
-    implementation(project(":core:ui"))
+    implementation(projects.core.ui)
 
     implementation(libs.core.ktx)
-    implementation(libs.lifecycle.runtime.ktx)
     implementation(libs.activity.compose)
-    implementation(platform(libs.compose.bom))
-    implementation(libs.ui)
-    implementation(libs.ui.graphics)
-    implementation(libs.ui.tooling.preview)
-    implementation(libs.material3)
+    implementation(libs.compose.runtime)
+    implementation(libs.compose.ui)
+    implementation(libs.compose.foundation)
+    implementation(libs.compose.foundation.layout)
+    implementation(libs.compose.material3)
 
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.espresso.core)
-    androidTestImplementation(platform(libs.compose.bom))
-    androidTestImplementation(libs.ui.test.junit4)
-    debugImplementation(libs.ui.tooling)
-    debugImplementation(libs.ui.test.manifest)
+    debugImplementation(libs.compose.ui.tooling)
+    implementation(libs.compose.ui.tooling.preview)
+//    implementation(libs.compose.runtime.tracing)
 }
